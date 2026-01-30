@@ -86,35 +86,6 @@ def inject_custom_css():
     </style>
     """, unsafe_allow_html=True)
 
-def sidebar_progress():
-    with st.sidebar:
-        st.markdown(f"""
-        <div style="text-align: center; margin-bottom: 20px;">
-            <div style="font-size: 3rem; background: rgba(56, 189, 248, 0.1); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto; color: #38bdf8;">🎓</div>
-            <h3 style="margin: 10px 0 0 0;">Student Profile</h3>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.write("PROGRESS")
-        st.markdown(f"""
-        <div class="progress-container">
-            <div class="progress-fill" style="width: {min(len(st.session_state.history['topics_completed']) * 25, 100)}%"></div>
-        </div>
-        <p style="text-align: right; font-size: 0.8rem; color: #94a3b8;">{len(st.session_state.history['topics_completed'])} / 4 Topics</p>
-        """, unsafe_allow_html=True)
-        
-        st.markdown(f"""
-        <div style="background: rgba(30, 41, 59, 0.5); padding: 15px; border-radius: 12px; text-align: center; margin-top: 10px;">
-            <div style="font-size: 1.5rem; font-weight: 700; color: #38bdf8;">{st.session_state.score}</div>
-            <div style="font-size: 0.8rem; color: #94a3b8;">TOTAL SCORE</div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("---")
-        if st.button("🏠 Returns to Home", use_container_width=True):
-            st.session_state.page = "home"
-            st.rerun()
-
 # Initialize Session State
 state_defaults = {
     "history": {"topics_completed": [], "hesitation_events": 0, "incorrect_answers": [], "weak_concepts": []},
@@ -158,7 +129,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     
     st.markdown("---")
-    if st.button("🏠 Returns to Home", use_container_width=True):
+    if st.button("🏠 Returns to Home", use_container_width=True, key="sidebar_home_btn"):
         st.session_state.page = "home"
         st.rerun()
 
@@ -275,7 +246,6 @@ def get_ai_response(prompt):
 
 def show_home():
     inject_custom_css()
-    sidebar_progress()
     
     st.markdown('<h1 class="gradient-text" style="font-size: 3.5rem; text-align: center; margin-bottom: 10px;">Cognify</h1>', unsafe_allow_html=True)
     st.markdown('<p style="text-align: center; color: #cbd5e1; font-size: 1.1rem; margin-bottom: 40px;">Select a topic to start learning.</p>', unsafe_allow_html=True)
@@ -310,7 +280,6 @@ def show_home():
 
 def show_topic():
     inject_custom_css()
-    sidebar_progress()
     topic = st.session_state.current_topic
     data = TOPICS[topic]
     
@@ -389,7 +358,6 @@ def show_topic():
 
 def show_summary():
     inject_custom_css()
-    sidebar_progress()
     st.markdown('<h1 class="gradient-text">📊 Performance Summary</h1>', unsafe_allow_html=True)
     
     st.markdown(f"""
