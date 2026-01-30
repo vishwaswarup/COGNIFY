@@ -5,7 +5,13 @@ import time
 import os
 
 # --- 1. CONFIGURATION & STYLING ---
-st.set_page_config(page_title="Cognify", page_icon="🎓", layout="wide")
+st.set_page_config(
+    page_title="Cognify",
+    page_icon="🎓",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 
 def inject_custom_css():
     st.markdown("""
@@ -370,3 +376,4 @@ def show_summary():
 if st.session_state.page == "home": show_home()
 elif st.session_state.page == "topic": show_topic()
 elif st.session_state.page == "summary": show_summary()
+
