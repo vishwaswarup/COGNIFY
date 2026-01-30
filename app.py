@@ -99,15 +99,26 @@ state_defaults = {
 for k, v in state_defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
+# --- EARLY UI RENDER (IMPORTANT FOR CLOUD) ---
+inject_custom_css()
+sidebar_progress()
 
 # API Config
+
+# --- API CONFIG ---
 api_key = os.environ.get("GEMINI_API_KEY")
 if not api_key:
-    try: api_key = st.secrets["GEMINI_API_KEY"]
-    except: pass
+    api_key = st.secrets.get("GEMINI_API_KEY")
+
 if not api_key:
+    with st.sidebar:
+        st.error("⚠️ API key not configured")
+        st.info("Add GEMINI_API_KEY in Streamlit → Settings → Secrets")
+
     st.error("Setup Error: API Key missing")
     st.stop()
+
+
 
 genai.configure(api_key=api_key)
 # Using gemma-3-1b-it as discovered
@@ -376,4 +387,5 @@ def show_summary():
 if st.session_state.page == "home": show_home()
 elif st.session_state.page == "topic": show_topic()
 elif st.session_state.page == "summary": show_summary()
+
 
