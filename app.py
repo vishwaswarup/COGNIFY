@@ -129,8 +129,38 @@ state_defaults = {
 for k, v in state_defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
+
 # --- EARLY UI RENDER (IMPORTANT FOR CLOUD) ---
 inject_custom_css()
+
+# --- SIDEBAR RENDER (ALWAYS VISIBLE) ---
+with st.sidebar:
+    st.markdown(f"""
+    <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 3rem; background: rgba(56, 189, 248, 0.1); width: 80px; height: 80px; line-height: 80px; border-radius: 50%; margin: 0 auto; color: #38bdf8;">🎓</div>
+        <h3 style="margin: 10px 0 0 0;">Student Profile</h3>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.write("PROGRESS")
+    st.markdown(f"""
+    <div class="progress-container">
+        <div class="progress-fill" style="width: {min(len(st.session_state.history['topics_completed']) * 25, 100)}%"></div>
+    </div>
+    <p style="text-align: right; font-size: 0.8rem; color: #94a3b8;">{len(st.session_state.history['topics_completed'])} / 4 Topics</p>
+    """, unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div style="background: rgba(30, 41, 59, 0.5); padding: 15px; border-radius: 12px; text-align: center; margin-top: 10px;">
+        <div style="font-size: 1.5rem; font-weight: 700; color: #38bdf8;">{st.session_state.score}</div>
+        <div style="font-size: 0.8rem; color: #94a3b8;">TOTAL SCORE</div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    if st.button("🏠 Returns to Home", use_container_width=True):
+        st.session_state.page = "home"
+        st.rerun()
 
 # API Config
 
