@@ -131,7 +131,6 @@ for k, v in state_defaults.items():
         st.session_state[k] = v
 # --- EARLY UI RENDER (IMPORTANT FOR CLOUD) ---
 inject_custom_css()
-sidebar_progress()
 
 # API Config
 
